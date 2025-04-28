@@ -1,0 +1,46 @@
+# Virtual Environment
+venv/
+fresh_env/
+venv - Copy/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+
+# Local development settings
+*.log
+.DS_Store
+
+# Database
+*.db
+*.sqlite3
+
+# Downloaded model cache
+.cache/
+.transformers/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Spotify credentials and sensitive data
+*.pem
+*.key
+credentials.json
+
+# Zip files
+*.zip

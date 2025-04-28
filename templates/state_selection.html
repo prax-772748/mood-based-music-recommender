@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your State - Music Mood</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="state-selection-container">
+            <header class="page-header">
+                <div class="header-content">
+                    <span class="header-emoji">🗺️</span>
+                    <div class="header-text">
+                        <h1>Select Your State</h1>
+                        <p class="subtitle">Choose your state to get personalized music recommendations in your preferred language</p>
+                    </div>
+                </div>
+            </header>
+            
+            <form method="POST" class="state-selection-form">
+                <div class="search-container">
+                    <input type="text" id="stateSearch" class="form-control" placeholder="Search for your state..." aria-label="Search states">
+                    <span class="search-icon">🔍</span>
+                </div>
+
+                <div class="states-grid">
+                    {% for state, language in state_languages.items() %}
+                    <div class="state-card" data-state="{{ state|lower }}" data-language="{{ language|lower }}">
+                        <input type="radio" name="state" value="{{ state }}" id="{{ state|replace(' ', '_') }}" class="visually-hidden">
+                        <label for="{{ state|replace(' ', '_') }}" class="state-content">
+                            <div class="state-info">
+                                <h3 class="state-name">{{ state }}</h3>
+                                <span class="language-badge">{{ language }}</span>
+                            </div>
+                            <div class="state-icon">
+                                <span class="check-icon">✓</span>
+                            </div>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        Continue to Mood Selection
+                        <span class="btn-icon">→</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('stateSearch');
+            const stateCards = document.querySelectorAll('.state-card');
+
+            // Search functionality
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                stateCards.forEach(card => {
+                    const state = card.dataset.state;
+                    const language = card.dataset.language;
+                    const isVisible = 
+                        state.includes(searchTerm) || 
+                        language.includes(searchTerm);
+                    
+                    card.style.display = isVisible ? '' : 'none';
+                });
+            });
+
+            // Selection handling
+            stateCards.forEach(card => {
+                const input = card.querySelector('input[type="radio"]');
+                
+                card.addEventListener('click', function() {
+                    // Remove selected class from all cards
+                    stateCards.forEach(c => c.classList.remove('selected'));
+                    // Add selected class to clicked card
+                    card.classList.add('selected');
+                    // Check the radio input
+                    input.checked = true;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

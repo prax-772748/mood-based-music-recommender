@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Music Recommendations - Music Mood</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <div class="playlist-container">
+            <header class="page-header">
+                <div class="header-content">
+                    <div class="user-mood">
+                        <span class="mood-emoji">{{ emoji }}</span>
+                        <div class="user-info">
+                            <h1>Your Music Recommendations</h1>
+                            <p class="subtitle">Personalized playlists for {{ username }}</p>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('mood_input') }}" class="btn btn-secondary">
+                        <span class="btn-icon">←</span>
+                        Change Mood
+                    </a>
+                </div>
+            </header>
+
+            {% if playlists %}
+            <div class="playlist-grid">
+                {% for playlist in playlists %}
+                <article class="playlist-card" data-followers="{{ playlist.followers }}">
+                    <div class="playlist-image-container">
+                        {% if playlist.image %}
+                        <img 
+                            src="{{ playlist.image }}" 
+                            alt="" 
+                            class="playlist-image"
+                            loading="lazy">
+                        {% else %}
+                        <div class="playlist-image-placeholder">
+                            <span class="music-icon">🎵</span>
+                        </div>
+                        {% endif %}
+                        <div class="playlist-overlay">
+                            <div class="playlist-stats">
+                                {% if playlist.followers %}
+                                <span class="followers-count">{{ '{:,}'.format(playlist.followers) }} followers</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="playlist-info">
+                        <div class="playlist-header">
+                            <h2 class="playlist-title">{{ playlist.name }}</h2>
+                            <span class="language-badge">{{ playlist.language }}</span>
+                        </div>
+                        
+                        {% if playlist.description %}
+                        <p class="playlist-description">
+                            {{ playlist.description[:120] }}{% if playlist.description|length > 120 %}...{% endif %}
+                        </p>
+                        {% endif %}
+                        
+                        <a href="{{ playlist.url }}" 
+                           class="btn btn-spotify" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            <span class="btn-icon">▶️</span>
+                            Listen on Spotify
+                        </a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">🎵</div>
+                <h2>No Playlists Found</h2>
+                <p>We couldn't find any playlists matching your mood right now. Try expressing your mood differently!</p>
+                <a href="{{ url_for('mood_input') }}" class="btn btn-primary">
+                    Try Again
+                </a>
+            </div>
+            {% endif %}
+
+            <footer class="page-footer">
+                <p>Music recommendations powered by Spotify</p>
+                <div class="action-buttons">
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                        Start Over
+                    </a>
+                    <a href="{{ url_for('mood_trends') }}" class="btn btn-primary">
+                        View Mood History
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lazy load images with fade-in effect
+            const images = document.querySelectorAll('.playlist-image');
+            images.forEach(img => {
+                img.addEventListener('load', () => img.classList.add('loaded'));
+            });
+
+            // Add hover effects to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mousedown', function(e) {
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    this.appendChild(ripple);
+                    
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+
+            // Animate cards on scroll
+            const cards = document.querySelectorAll('.playlist-card');
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('fade-in');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.1 }
+            );
+
+            cards.forEach(card => observer.observe(card));
+        });
+    </script>
+</body>
+</html>

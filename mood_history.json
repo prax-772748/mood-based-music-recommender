@@ -1,0 +1,294 @@
+{
+    "const moodHistory": "JSON.parse('{{ mood_history|tojson|escapejs }}')",
+    "TestUser": {
+        "state": "Unknown",
+        "mood_history": [
+            {
+                "date": "2025-04-22",
+                "mood": "\ud83d\ude00\ud83d\ude22\ud83d\ude32\ud83d\ude21"
+            }
+        ]
+    },
+    "praxshannu": {
+        "state": "Unknown",
+        "mood_history": [
+            {
+                "date": "2025-04-22",
+                "mood": "\ud83d\ude22\ud83d\ude21\ud83d\ude0d\ud83d\ude00"
+            }
+        ]
+    },
+    "pRAS": {
+        "state": "Unknown",
+        "mood_history": [
+            {
+                "date": "2025-04-23",
+                "mood": "\ud83d\ude22\ud83d\ude32\ud83d\ude10\ud83d\ude0d"
+            },
+            {
+                "date": "2025-04-23",
+                "mood": "\ud83d\ude22\ud83d\ude32\ud83d\ude10\ud83d\ude0d"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "\"The laughter echoed in the hallway long after everyone had left.\""
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "\"The laughter echoed in the hallway long after everyone had left.\""
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "I couldn\u2019t help but tap my foot as the world seemed to move with the rhythm.\""
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "\"As I walked under the fading streetlights, memories of yesterday gently surfaced.\""
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "\"The coffee had gone cold, unnoticed until I paused and looked again.\""
+            }
+        ]
+    },
+    "prax": {
+        "state": "Andhra Pradesh",
+        "mood_history": [
+            {
+                "text": "i sm worried",
+                "emoji": "\ud83d\ude30",
+                "timestamp": "2025-04-26 07:25:24"
+            },
+            {
+                "text": "i am thinking a lot",
+                "emoji": "\ud83d\ude00",
+                "timestamp": "2025-04-26 07:23:07"
+            },
+            {
+                "text": "worried",
+                "emoji": "\ud83d\ude30",
+                "timestamp": "2025-04-26 07:21:39"
+            },
+            {
+                "text": "i am feeling low",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-26 07:17:30"
+            },
+            {
+                "text": "i am feeling chill",
+                "emoji": "\ud83d\ude00",
+                "timestamp": "2025-04-26 07:09:49"
+            },
+            {
+                "text": "\"I feel excited.\"",
+                "emoji": "\ud83d\ude00",
+                "timestamp": "2025-04-26 07:05:42"
+            },
+            {
+                "text": "happy",
+                "emoji": "\ud83d\ude00",
+                "timestamp": "2025-04-26 06:59:37"
+            },
+            {
+                "text": "i am sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-26 06:59:00"
+            },
+            {
+                "text": "sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-26 06:47:13"
+            },
+            {
+                "text": "i am sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-26 06:43:36"
+            },
+            {
+                "text": "sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-26 00:25:00"
+            },
+            {
+                "text": "i am frustated and pretty sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-26 00:02:26"
+            },
+            {
+                "text": "i am sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-25 23:41:15"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "i am frustated and pretty sad"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "i am sad\r\n"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "party\r\n"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "im feeling very sad and frustated"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "i am very sad"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "my heart feeling heavy"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "i am so sad and frustated"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "I feel happy and excited!"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "I am looking for some tracks to listen to right now."
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "The sun barely peeked through the heavy clouds as I walked alone.\""
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "\"The room felt electric as the rhythm built up, pulling me into movement.\""
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "\"That song played again today, and it felt different this time.\""
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "\"The familiar notes echoed through the space, and I just sat there listening.\""
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "feeling lucky\r\n"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "im so bored and my manager got frustated on me and im feeling not well"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "im unable to be happy\r\n"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "i feeling low"
+            },
+            {
+                "date": "2025-04-24",
+                "mood": "\"The familiar notes echoed through the space, and I just sat there listening.\""
+            },
+            {
+                "date": "2025-04-24 19:44:05",
+                "mood": "i am so sad and felling drepressen",
+                "emoji": "\ud83d\ude22"
+            },
+            {
+                "date": "2025-04-24 19:52:02",
+                "mood": "i am so sad and felling drepressen",
+                "emoji": "\ud83d\ude22"
+            },
+            {
+                "date": "2025-04-24 20:08:23",
+                "mood": "\"The sky turned deep orange as the last rays of sunlight faded.\"",
+                "emoji": "\ud83d\ude10"
+            },
+            {
+                "date": "2025-04-24 20:08:46",
+                "mood": "\"The bass thumped through the speakers, shaking the floor beneath me.\"",
+                "emoji": "\ud83d\ude10"
+            },
+            {
+                "date": "2025-04-24 20:09:17",
+                "mood": "\"The gentle hum of the city outside was the only thing breaking the silence.\"",
+                "emoji": "\ud83d\udd4a\ufe0f"
+            },
+            {
+                "date": "2025-04-24 20:10:38",
+                "mood": "\"The beat dropped, and I felt the energy surge through me.\"",
+                "emoji": "\ud83d\ude10"
+            },
+            {
+                "date": "2025-04-24 20:12:51",
+                "mood": "i feeling well",
+                "emoji": "\ud83d\ude10"
+            },
+            {
+                "date": "2025-04-24 20:13:36",
+                "mood": "sad",
+                "emoji": "\ud83d\ude22"
+            }
+        ]
+    },
+    "Rajkumar": {
+        "state": "Andhra Pradesh",
+        "mood_history": [
+            {
+                "date": "2025-04-24",
+                "mood": "I feel happy and excited!"
+            }
+        ]
+    },
+    "mood": {
+        "state": "Andhra Pradesh",
+        "mood_history": [
+            {
+                "text": "i am so sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-25 23:48:10"
+            }
+        ]
+    },
+    "thanu": {
+        "state": "Andhra Pradesh",
+        "mood_history": [
+            {
+                "text": "im so sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-26 06:54:24"
+            }
+        ]
+    },
+    "matta": {
+        "state": "Andhra Pradesh",
+        "mood_history": [
+            {
+                "text": "i am good",
+                "emoji": "\ud83d\ude00",
+                "timestamp": "2025-04-27 21:06:26"
+            },
+            {
+                "text": "sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-27 20:45:45"
+            }
+        ]
+    },
+    "Praxshannu": {
+        "state": "Andhra Pradesh",
+        "mood_history": [
+            {
+                "text": "sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-04-27 21:00:33"
+            }
+        ]
+    },
+    "hellaa": {
+        "state": "Andhra Pradesh",
+        "mood_history": []
+    }
+}

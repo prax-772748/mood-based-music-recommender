@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Mood - Login</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo-container">
+                    <span class="logo-emoji">🎵</span>
+                    <h1>Music Mood</h1>
+                </div>
+                <p class="tagline">Where emotions meet melodies</p>
+            </div>
+            
+            <form method="POST" class="login-form">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="form-control" 
+                        placeholder="Enter your username" 
+                        required 
+                        autocomplete="off"
+                        autocapitalize="off">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Start Your Musical Journey
+                </button>
+            </form>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-emoji">🎯</span>
+                    <h3>Personalized</h3>
+                    <p>Music that matches your mood</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-emoji">🌍</span>
+                    <h3>Regional</h3>
+                    <p>Local favorites and global hits</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-emoji">💫</span>
+                    <h3>Smart</h3>
+                    <p>AI-powered recommendations</p>
+                </div>
+            </div>
+
+            <footer class="login-footer">
+                <div class="mood-emojis">
+                    <span title="Happy">😊</span>
+                    <span title="Relaxed">😌</span>
+                    <span title="Energetic">⚡</span>
+                    <span title="Peaceful">🍃</span>
+                    <span title="Romantic">💝</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

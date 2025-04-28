@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Music Mood</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="container error-container">
+        <div class="error-card">
+            <div class="error-icon">❌</div>
+            <h1>Oops! Something went wrong</h1>
+            
+            <div class="error-message">
+                {{ error_message }}
+            </div>
+
+            {% if error_details and debug %}
+            <div class="error-details">
+                <details>
+                    <summary>Technical Details</summary>
+                    <pre>{{ error_details }}</pre>
+                </details>
+            </div>
+            {% endif %}
+
+            <div class="error-actions">
+                <button onclick="window.history.back()" class="btn-secondary">
+                    Go Back
+                </button>
+                <a href="{{ url_for('login') }}" class="btn-primary">
+                    Return Home
+                </a>
+            </div>
+
+            <div class="error-help">
+                <p>Need help? Try these:</p>
+                <ul>
+                    <li>Refresh the page and try again</li>
+                    <li>Clear your browser cache</li>
+                    <li>Check your internet connection</li>
+                    {% if spotify_error %}
+                    <li>Make sure you are logged into Spotify</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Removed inline CSS and linked external stylesheet */
+    </style>
+</body>
+</html>

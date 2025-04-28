@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Mood - Express Yourself</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <div class="mood-input-container">
+            <header class="page-header">
+                <div class="header-content">
+                    <span class="header-emoji">🎵</span>
+                    <div class="header-text">
+                        <h1>How are you feeling?</h1>
+                        <p class="subtitle">Express yourself, and we'll find the perfect music for your mood</p>
+                    </div>
+                </div>
+            </header>
+
+            <form method="POST" action="{{ url_for('process_mood') }}" class="mood-form">
+                <div class="input-wrapper">
+                    <div class="mood-input-group">
+                        <input 
+                            type="text" 
+                            id="text_input" 
+                            name="text" 
+                            class="form-control mood-input" 
+                            placeholder="Describe your mood or feelings..." 
+                            required
+                            autocomplete="off"
+                            aria-label="Describe your mood">
+                        <button type="button" onclick="startVoiceInput()" class="btn btn-icon voice-btn" aria-label="Use voice input">
+                            <span class="btn-icon">🎤</span>
+                        </button>
+                    </div>
+                    <div class="mood-suggestions"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary submit-btn">
+                    <span class="btn-text">Find My Music</span>
+                    <span class="btn-icon">🎶</span>
+                </button>
+            </form>
+
+            {% if emoji %}
+            <div class="results-section">
+                <div class="mood-emoji-display">
+                    <div class="emoji">{{ emoji }}</div>
+                    <p class="mood-description">We'll find music that matches your {{ emotion }} mood</p>
+                </div>
+                
+                {% if playlists %}
+                <div class="playlist-grid">
+                    {% for playlist in playlists %}
+                    <article class="playlist-card" tabindex="0">
+                        <div class="playlist-image-container">
+                            {% if playlist.image %}
+                            <img src="{{ playlist.image }}" alt="" class="playlist-image">
+                            {% else %}
+                            <div class="playlist-image-placeholder">
+                                <span class="music-icon">🎵</span>
+                            </div>
+                            {% endif %}
+                            <div class="playlist-overlay">
+                                <a href="{{ playlist.url }}" class="btn btn-spotify" target="_blank" rel="noopener noreferrer">
+                                    Listen on Spotify
+                                </a>
+                            </div>
+                        </div>
+                        <div class="playlist-info">
+                            <h3 class="playlist-title">{{ playlist.name }}</h3>
+                            <span class="language-badge">{{ playlist.language }}</span>
+                            {% if playlist.description %}
+                            <p class="playlist-description">
+                                {{ playlist.description[:120] }}{% if playlist.description|length > 120 %}...{% endif %}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {% if mood_history %}
+            <section class="mood-history">
+                <h2 class="section-title">Your Mood Journey</h2>
+                <div class="mood-timeline">
+                    {% for entry in mood_history %}
+                    <article class="mood-card">
+                        <time class="mood-date">{{ entry.date }}</time>
+                        <p class="mood-text">{{ entry.mood }}</p>
+                        {% if entry.emoji %}
+                        <div class="mood-emoji">{{ entry.emoji }}</div>
+                        {% endif %}
+                    </article>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="voice-indicator" class="voice-indicator hidden">
+        <span class="voice-icon">🎤</span>
+        <span class="voice-text">Listening...</span>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
