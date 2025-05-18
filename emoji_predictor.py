@@ -1,8 +1,15 @@
 import logging
 import os
 import random
-from typing import Any, Dict, List, Tuple, Set, Optional
+from typing import Any, Dict, List, Tuple, Set, Optional, cast
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 from transformers.pipelines import pipeline
+import nltk
+from nltk.corpus import wordnet
+from deep_translator import GoogleTranslator
+from geopy.geocoders import Nominatim
+
 from emotion_mappings import (
     emotion_to_emoji, 
     emotion_patterns, 
@@ -10,6 +17,11 @@ from emotion_mappings import (
     negative_sentiment_words,
     get_emotion_name
 )
+
+# Type definitions for better type safety
+SpotifyPlaylist = Dict[str, Any]
+EmotionResult = Tuple[str, float]
+PlaylistResult = List[Dict[str, Any]]
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -306,81 +318,106 @@ def combined_emotion(text: str) -> List[Tuple[str, float]]:
         return [("neutral", 1.0)]
 
 def get_spotify_playlist(emotion: str, language: str) -> List[Dict[str, Any]]:
-    """
-    Copilot: Generate search queries dynamically using emotion and language
-    """
-    import spotipy
-    from spotipy.oauth2 import SpotifyClientCredentials
-    import os
-    import logging
+    """Get emotion and language specific playlists."""
+    try:
+        client_id = os.getenv('SPOTIFY_CLIENT_ID')
+        client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
+        
+        if not client_id or not client_secret:
+            logging.error("Spotify credentials not found")
+            return []
 
-    client_id = os.getenv('SPOTIFY_CLIENT_ID')
-    client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
-    if not client_id or not client_secret:
-        logging.error("Spotify client ID or secret not set in environment variables.")
-        return get_default_playlists()
-
-    client_credentials_manager = SpotifyClientCredentials(
-        client_id=client_id,
-        client_secret=client_secret
-    )
-    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-    all_playlists = []
-
-    # Copilot: Generate search queries dynamically using emotion and language
-    queries = [
-        f"{emotion} {language} playlist",
-        f"{emotion} {language} songs",
-        f"{emotion} playlist",
-        f"{emotion} songs",
-        f"{language} playlist",
-        f"{language} songs"
-    ]
-
-    for query in queries:
-        try:
-            # Copilot: Pass the market parameter for regional focus
-            results = sp.search(q=query, type='playlist', limit=6, market='IN')
-            if (results and isinstance(results, dict) and
-                'playlists' in results and
-                results['playlists'] is not None and
-                'items' in results['playlists'] and
-                results['playlists']['items'] is not None and
-                isinstance(results['playlists']['items'], list) and
-                len(results['playlists']['items']) > 0):
+        sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
+            client_id=client_id,
+            client_secret=client_secret
+        ))
+        
+        # Get language-specific terms for the emotion
+        emotion_name = get_emotion_name(emotion, language)
+        
+        # Build search queries using language and emotion context
+        search_terms = []
+        
+        # Add language-specific search terms
+        if language in playlist_templates:
+            # Use language-specific template
+            playlist_name = playlist_templates[language].format(emotion=emotion_name)
+            search_terms.append(playlist_name)
+        
+        # Add specific language tags for major Indian languages
+        lang_tags = {
+            'hi': ['Hindi', 'Bollywood'],
+            'ta': ['Tamil', 'Kollywood'],
+            'te': ['Telugu', 'Tollywood'],
+            'ml': ['Malayalam', 'Mollywood'],
+            'bn': ['Bengali', 'Bangla'],
+            'mr': ['Marathi'],
+            'gu': ['Gujarati'],
+            'kn': ['Kannada', 'Sandalwood'],
+            'pa': ['Punjabi']
+        }
+        
+        if language in lang_tags:
+            for tag in lang_tags[language]:
+                search_terms.extend([
+                    f"{tag} {emotion_name}",
+                    f"{emotion_name} {tag}",
+                    f"{tag} Music {emotion_name}"
+                ])
+        
+        # Collect all playlists
+        all_playlists = []
+        seen_urls = set()
+        
+        for query in search_terms:
+            logging.info(f"Searching for playlists with query: {query}")
+            try:
+                results = sp.search(q=query, type='playlist', limit=6, market='IN')
+                
+                if not results or not results.get('playlists') or not results['playlists'].get('items') or \
+                   len(results['playlists']['items']) == 0:
+                    continue
+                    
                 for playlist in results['playlists']['items']:
-                    followers = 0
-                    if 'followers' in playlist and playlist['followers'] is not None:
+                    if playlist['external_urls']['spotify'] not in seen_urls:
                         followers = playlist['followers'].get('total', 0)
-                    all_playlists.append({
-                        'name': playlist.get('name', 'Unknown'),
-                        'url': playlist.get('external_urls', {}).get('spotify', ''),
-                        'image': playlist['images'][0]['url'] if playlist.get('images') else None,
-                        'language': language.upper(),
-                        'description': playlist.get('description', ''),
-                        'followers': followers
-                    })
-            if all_playlists:
-                break
-        except Exception as e:
-            logging.warning(f"Spotify search failed for query '{query}': {e}")
-            continue
-
-    if not all_playlists:
-        return get_default_playlists()
-
-    # Remove duplicates by playlist URL
-    seen_urls = set()
-    unique_playlists = []
-    for playlist in all_playlists:
-        if playlist['url'] not in seen_urls:
-            unique_playlists.append(playlist)
-            seen_urls.add(playlist['url'])
-    all_playlists = unique_playlists
-
-    # Sort by followers and return top 4
-    all_playlists.sort(key=lambda x: x.get('followers', 0), reverse=True)
-    return all_playlists[:4]
+                        
+                        # Extract language information from playlist description
+                        description = playlist.get('description', '').lower()
+                        name = playlist.get('name', '').lower()
+                        
+                        # Skip if obviously wrong language
+                        if language != 'en' and \
+                           all(tag.lower() not in description and tag.lower() not in name 
+                               for tag in lang_tags.get(language, [])):
+                            continue
+                            
+                        playlist_info = {
+                            'name': playlist.get('name', 'Unknown'),
+                            'url': playlist.get('external_urls', {}).get('spotify', ''),
+                            'image': playlist['images'][0]['url'] if playlist.get('images') else None,
+                            'description': description,
+                            'followers': followers
+                        }
+                        
+                        all_playlists.append(playlist_info)
+                        seen_urls.add(playlist_info['url'])
+                        
+            except Exception as e:
+                logging.error(f"Error searching for query '{query}': {str(e)}")
+                continue
+        
+        # Sort playlists by follower count and return top results
+        all_playlists.sort(key=lambda x: x.get('followers', 0), reverse=True)
+        
+        if not all_playlists:
+            logging.warning(f"No playlists found for emotion '{emotion}' in language '{language}'")
+            
+        return all_playlists[:4]
+        
+    except Exception as e:
+        logging.error(f"Error in get_spotify_playlist: {str(e)}")
+        return []
 
 def get_default_playlists() -> List[Dict[str, Any]]:
     """Return default playlists when no matches are found."""
