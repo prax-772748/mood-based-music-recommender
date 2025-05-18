@@ -290,5 +290,50 @@
     "hellaa": {
         "state": "Andhra Pradesh",
         "mood_history": []
+    },
+    "may": {
+        "state": "Tamil Nadu",
+        "mood_history": [
+            {
+                "text": "It's been a long day, and I need something relaxing yet uplifting.\"",
+                "emoji": "\ud83d\ude00",
+                "timestamp": "2025-05-18 13:30:12"
+            },
+            {
+                "text": "I'm feeling happy and energized. Play some upbeat tunes!\"",
+                "emoji": "\ud83d\ude00",
+                "timestamp": "2025-05-18 13:01:36"
+            },
+            {
+                "text": "\"It's been a long day, and I need something relaxing yet uplifting.",
+                "emoji": "\ud83d\ude00",
+                "timestamp": "2025-05-18 13:01:22"
+            },
+            {
+                "text": "i am feeling low",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-05-18 12:11:07"
+            },
+            {
+                "text": "i am feeling sad",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-05-18 12:00:33"
+            },
+            {
+                "text": "i am feeling lucky",
+                "emoji": "\ud83d\ude00",
+                "timestamp": "2025-05-18 11:59:05"
+            }
+        ]
+    },
+    "sam": {
+        "state": "Sikkim",
+        "mood_history": [
+            {
+                "text": "actaully i am feeling low",
+                "emoji": "\ud83d\ude22",
+                "timestamp": "2025-05-18 12:07:35"
+            }
+        ]
     }
 }

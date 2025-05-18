@@ -1,6 +1,6 @@
 @echo off
 REM Navigate to the project directory
-cd /d "C:\Users\rajku\Downloads\apk\music recommadation napp"
+cd /d "project directory path"
 
 REM Check if virtual environment exists and activate it
 if exist fresh_env\Scripts\activate.bat (

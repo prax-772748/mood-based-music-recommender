@@ -16,5 +16,5 @@ powershell Compress-Archive -Force -Path ^
 
 echo.
 echo Project packaged successfully as 'music_mood_recommender.zip'
-echo Please share this zip file with your friend along with the setup instructions in README.md
+echo Now you can share this zip file everyone with the setup instructions in README.md
 pause
